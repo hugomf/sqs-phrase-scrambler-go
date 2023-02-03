@@ -9,7 +9,7 @@ There are two main programs:
 
 ## Usage:
 
-- Provision SQS Queue in AWS as follows (`phrase-scrambler-queue` will be created):
+- Provision SQS Queue in AWS as follows, a queue named `phrase-scrambler-queue` will be created:
 
 ```shell
 	$ cd cdk-deploy 
