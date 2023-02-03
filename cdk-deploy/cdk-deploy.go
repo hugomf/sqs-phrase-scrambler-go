@@ -21,15 +21,15 @@ func NewCdkDeployStack(scope constructs.Construct, id string, props *CdkDeploySt
 	// The code that defines your stack goes here
 
 	// example resource
-	producerQueue := awssqs.NewQueue(stack, jsii.String("phrase-producer-queue"), &awssqs.QueueProps{
-		QueueName:         jsii.String("phrase-producer-queue"),
-		VisibilityTimeout: awscdk.Duration_Seconds(jsii.Number(300)),
-	})
+	// producerQueue := awssqs.NewQueue(stack, jsii.String("phrase-producer-queue"), &awssqs.QueueProps{
+	// 	QueueName:         jsii.String("phrase-producer-queue"),
+	// 	VisibilityTimeout: awscdk.Duration_Seconds(jsii.Number(300)),
+	// })
 
-	awscdk.NewCfnOutput(stack, jsii.String("PhraseProducerQueueUrl"), &awscdk.CfnOutputProps{
-		Value:      producerQueue.QueueUrl(),
-		ExportName: jsii.String("PhraseProducerQueueUrl"),
-	})
+	// awscdk.NewCfnOutput(stack, jsii.String("PhraseProducerQueueUrl"), &awscdk.CfnOutputProps{
+	// 	Value:      producerQueue.QueueUrl(),
+	// 	ExportName: jsii.String("PhraseProducerQueueUrl"),
+	// })
 
 	scramblerQueue := awssqs.NewQueue(stack, jsii.String("phrase-scrambler-queue"), &awssqs.QueueProps{
 		QueueName:         jsii.String("phrase-scrambler-queue"),

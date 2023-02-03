@@ -30,7 +30,7 @@ func scrambler_runner() {
 		wordPositions[i], wordPositions[j] = wordPositions[j], wordPositions[i]
 	})
 
-	wrapperSend, err := NewSQSWrapper("phrase-producer-queue")
+	wrapperSend, err := NewSQSWrapper("phrase-scrambler-queue")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
