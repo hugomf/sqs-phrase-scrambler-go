@@ -1,4 +1,6 @@
-# **Word Scrambler**
+# **Word Scrambler** ![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/gomods/athens.svg)
+
+
 
 This program is intended to learn about *goroutines* and **AWS SQS** to handle multi-threads and communication between different processes.
 There are two main programs:
