@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 func receiveWords(wrapper *SQSWrapper) []string {
@@ -27,30 +28,38 @@ func receiveWords(wrapper *SQSWrapper) []string {
 	phrase := make([]string, size)
 	phrase[pos] = word
 
+	wg := &sync.WaitGroup{}
+
 	for i := 1; i < size; i++ {
+		wg.Add(1)
+		go updateWord(wrapper, phraseID, phrase, wg)
 
-		protoWord, err := wrapper.PopMessage()
-		if err != nil {
-			fmt.Println(err.Error())
-			continue
-		}
+	}
+	wg.Wait()
 
-		wordDefinition := strings.Split(protoWord, ":")
-		if len(wordDefinition) != 4 {
-			return nil
-		}
+	return phrase
+}
+
+func updateWord(wrapper *SQSWrapper, phraseID string, phrase []string, wg *sync.WaitGroup) {
+
+	defer wg.Done()
+
+	protoWord, err := wrapper.PopMessage()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	wordDefinition := strings.Split(protoWord, ":")
+	if len(wordDefinition) == 4 {
 		if phraseID == wordDefinition[0] {
 			pos, err := strconv.Atoi(wordDefinition[2])
 			if err != nil {
 				fmt.Println("Error converting string to int:", err)
-				return nil
+				return
 			}
 			phrase[pos] = wordDefinition[3]
 		}
-
 	}
-
-	return phrase
 }
 
 func assemmbler_runner() {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -13,7 +14,7 @@ func scrambler_runner() {
 
 	// wrapperReceive:= NewSQSWrapper("")
 
-	inputPhrase := "Hello World!"
+	inputPhrase := "Ya termine!!!"
 
 	phraseID := uuid.New().String()
 	words := []rune(inputPhrase)
@@ -29,18 +30,29 @@ func scrambler_runner() {
 		wordPositions[i], wordPositions[j] = wordPositions[j], wordPositions[i]
 	})
 
-	wrapperSend, err := NewSQSWrapper("phrase-scrambler-queue")
+	wrapperSend, err := NewSQSWrapper("phrase-producer-queue")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
+
+	wg := &sync.WaitGroup{}
+
 	for _, word := range wordPositions {
-		fmt.Println(word)
-		_, err := wrapperSend.SendMessage(word)
-		if err != nil {
-			fmt.Println(err.Error())
-			continue
-		}
-		// fmt.Println(*resp.MessageId)
+		wg.Add(1)
+		go sendMessage(word, wrapperSend, wg)
 	}
+	wg.Wait()
+}
+
+func sendMessage(word string, wrapperSend *SQSWrapper, wg *sync.WaitGroup) {
+
+	defer wg.Done()
+
+	fmt.Println(word)
+	_, err := wrapperSend.SendMessage(word)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
 }

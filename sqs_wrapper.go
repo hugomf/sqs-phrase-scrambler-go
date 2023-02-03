@@ -44,7 +44,7 @@ func NewSQSWrapper(queueName string) (*SQSWrapper, error) {
 
 func (s *SQSWrapper) SendMessage(message string) (*sqs.SendMessageOutput, error) {
 	sMInput := &sqs.SendMessageInput{
-		DelaySeconds: 10,
+		DelaySeconds: 2,
 		MessageBody:  aws.String(message),
 		QueueUrl:     aws.String(s.queueURL),
 	}
@@ -88,7 +88,7 @@ func (s *SQSWrapper) PopMessage() (string, error) {
 		QueueUrl:            &s.queueURL,
 		MaxNumberOfMessages: 1,
 		VisibilityTimeout:   int32(5),
-		WaitTimeSeconds:     int32(20),
+		WaitTimeSeconds:     int32(5),
 	}
 	msgResult, err := s.sqsClient.ReceiveMessage(context.TODO(), gMInput)
 	if err != nil {
