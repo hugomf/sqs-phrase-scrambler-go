@@ -17,7 +17,7 @@ There are two main programs:
 	$ aws configure
 ```
 
-- **CDKv2** you need to install cdk in your system
+- You need to install **CDKv2** in your system
 
 ```shell
 $ npm install -g aws-cdk
