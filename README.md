@@ -1,7 +1,7 @@
 # **Phrase Scrambler** ![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/gomods/athens.svg)
 
 
-The inital service will be jumbling up a phrase, it is sent each word through the network to a different service that unscrambles it and returns the original wording intact.
+The inital service will jumble a phrase, it is sent each word through the network to a different service that unscrambles it and returns the original wording intact.
 
 This program is intended to learn about *goroutines* and **AWS SQS** to handle multi-threads and communication between different processes.
 There are two main components:
